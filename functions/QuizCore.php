@@ -58,16 +58,17 @@ class QuizCore extends Database {
 		}
 	}
 
-	public function startQuiz( $test_id, $user_name ) {
+	public function startQuiz( $test_id, $test_name, $user_name ) {
 		// Get Questions of test
 		$questions = $this->getAllTestQuestions( $test_id );
 
 		if ( $questions ) {
-			// Add quiz to quiz table
-			$query     = "INSERT INTO results SET test_id=:test_id, user_name=:user_name, total_questions=:total_questions, total_answered=0, total_correct=0";
+			// Add test to results table
+			$query     = "INSERT INTO results SET test_id=:test_id, test_name=:test_name, user_name=:user_name, total_questions=:total_questions, total_answered=0, total_correct=0";
 			$statement = $this->connect()->prepare( $query );
 			$statement->execute( array(
 				':test_id'         => $test_id,
+				':test_name'       => $test_name,
 				':user_name'       => $user_name,
 				':total_questions' => sizeof( $questions ),
 			) );
@@ -86,9 +87,6 @@ class QuizCore extends Database {
 				array( "message" => "No Questions found." )
 			);
 		}
-
-
-		// Get test questions
 	}
 
 	public function updateQuiz( $result_id, $question_id, $choice_id ) {

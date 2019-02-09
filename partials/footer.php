@@ -6,6 +6,7 @@
 <script src="../assets/js/jquery.cookie.js"></script>
 <script>
     var numberOfQuestions;
+    document.cookie = 'test_id=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     $(document).ready(function () {
         getAllTests();
         $("#start_test_form").submit(function (ev) {
@@ -66,6 +67,7 @@
         var fd = new FormData();
         fd.append('name', $("#test_user_name").val());
         fd.append('test', $("#test_Select option:selected").val());
+        fd.append('test_name', $("#test_Select option:selected").text());
         $.ajax({
             url: 'functions/start.php',
             // dataType: 'json',
@@ -74,9 +76,9 @@
             type: 'POST',
             data: fd,
             success: function (data, textStatus, jQxhr) {
+                $.cookie("test_id", data['test_id']);
                 createQuestionElements(data['questions']);
                 numberOfQuestions = data['questions'].length;
-                $.cookie("test_id", data['test_id']);
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 console.log(errorThrown);
@@ -100,7 +102,7 @@
             var finalHtml = '<div class="container" id="question_' + question_number + '" style="display: none">\n' +
                 '        <div class="row">\n' +
                 '            <div class="col-lg-12 text-center">\n' +
-                '                <h2 class="mt-5">Question</h2>\n' +
+                '                <h2 class="mt-5">'+question['question']+'</h2>\n' +
                 '                <p class="lead">Click on the correct answer.</p>\n' +
                 '                <div class="choices">\n' + choicesHtml +
                 '                </div>\n' +
@@ -164,12 +166,12 @@
         var finish_quiz_html = '<div class="row">\n' +
             '            <div class="col-lg-12 text-center">\n' +
             '                <h1 class="mt-5">Thanks ' + result["user_name"] + '</h1>\n' +
-            '                <p class="lead">You answered ' + result["total_answered"] + ' out of ' + result["total_questions"] + ' questions in ' + result["test_id"] + ' !!</p>\n' +
+            '                <p class="lead">You answered ' + result["total_answered"] + ' out of ' + result["total_questions"] + ' questions in ' + result["test_name"] + ' !!</p>\n' +
             '                <div class="score">\n' +
             '                    <table class="table">\n' +
             '                        <tbody>\n' +
             '                        <tr>\n' +
-            '                            <td>Test</td><td>' + result["test_id"] + '</td>\n' +
+            '                            <td>Test</td><td>' + result["test_name"] + '</td>\n' +
             '                        </tr>\n' +
             '                        <tr>\n' +
             '                            <td>Total Questions</td><td>' + result["total_questions"] + '</td>\n' +
