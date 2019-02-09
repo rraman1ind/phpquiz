@@ -1,0 +1,14 @@
+{
+  "autoload": {
+    "classmap": [
+      "functions/"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
+  }
+}
