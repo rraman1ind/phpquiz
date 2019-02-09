@@ -108,13 +108,13 @@ class QuizCore extends Database {
 
 		if ( $status ) {
 
-			$result_query = "SELECT * FROM results WHERE id=".$result_id;
+			$result_query     = "SELECT * FROM results WHERE id=" . $result_id;
 			$result_statement = $this->connect()->query( $result_query );
-			$result    = $result_statement->fetch( PDO::FETCH_ASSOC );
+			$result           = $result_statement->fetch( PDO::FETCH_ASSOC );
 
-			if($result['total_questions'] <= $result['total_answered']) {
+			if ( $result['total_questions'] <= $result['total_answered'] ) {
 
-				$this->endQuiz($result);
+				$this->endQuiz( $result );
 
 			} else {
 				http_response_code( 200 );
@@ -130,16 +130,27 @@ class QuizCore extends Database {
 		}
 	}
 
-	public function endQuiz($result) {
+	public function endQuiz( $result ) {
 
-		$update_result_query = "UPDATE results SET quiz_finished_at = CURRENT_TIMESTAMP WHERE id=".$result['id'];
-		$resultStatement = $this->connect()->prepare( $update_result_query );
-		$status          = $resultStatement->execute();
+		$update_result_query = "UPDATE results SET quiz_finished_at = CURRENT_TIMESTAMP WHERE id=" . $result['id'];
+		$resultStatement     = $this->connect()->prepare( $update_result_query );
+		$status              = $resultStatement->execute();
+
+		$test_results = $this->getResults( $result['id'] );
+
 		http_response_code( 200 );
 		echo json_encode(
-			array( "message" => "2" )
+			array( "message" => "2", "result" => $result )
 		);
 
+	}
+
+	public function getResults( $result_id ) {
+		$query     = "SELECT * from results WHERE id = " . $result_id;
+		$statement = $this->connect()->query( $query );
+		$data      = $statement->fetch( PDO::FETCH_ASSOC );
+
+		return $data;
 	}
 
 }

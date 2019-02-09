@@ -143,7 +143,7 @@
                     var next_question_id = parseInt(question_number) + 1;
                     $("#question_" + next_question_id).fadeIn();
                 } else if (data['message'] == 2) {
-                    finishQuiz();
+                    finishQuiz(data["result"]);
                 } else {
                     console.log(data, textStatus, jQxhr);
                 }
@@ -158,7 +158,38 @@
         $("#question_1").fadeIn();
     }
 
-    function finishQuiz() {
+    function finishQuiz(result) {
+        var total_wrong_answers = parseInt(result["total_questions"]) - parseInt(result["total_correct"]);
+
+        var finish_quiz_html = '<div class="row">\n' +
+            '            <div class="col-lg-12 text-center">\n' +
+            '                <h1 class="mt-5">Thanks ' + result["user_name"] + '</h1>\n' +
+            '                <p class="lead">You answered ' + result["total_answered"] + ' out of ' + result["total_questions"] + ' questions in ' + result["test_id"] + ' !!</p>\n' +
+            '                <div class="score">\n' +
+            '                    <table class="table">\n' +
+            '                        <tbody>\n' +
+            '                        <tr>\n' +
+            '                            <td>Test</td><td>' + result["test_id"] + '</td>\n' +
+            '                        </tr>\n' +
+            '                        <tr>\n' +
+            '                            <td>Total Questions</td><td>' + result["total_questions"] + '</td>\n' +
+            '                        </tr>\n' +
+            '                        <tr>\n' +
+            '                            <td>Attempted</td><td>' + result["total_answered"] + '</td>\n' +
+            '                        </tr>\n' +
+            '                        <tr>\n' +
+            '                            <td>Correct</td><td>' + result["total_correct"] + '</td>\n' +
+            '                        </tr>\n' +
+            '                        <tr>\n' +
+            '                            <td>Wrong</td><td>' + total_wrong_answers + '</td>\n' +
+            '                        </tr>\n' +
+            '                        </tbody>\n' +
+            '                    </table>\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '        </div>';
+
+        $("#finish_quiz").append(finish_quiz_html);
         $("#finish_quiz").show();
     }
 

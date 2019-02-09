@@ -48,35 +48,7 @@ include_once "partials/header.php";
         </div>
     </div>
 
-    <div class="container" id="finish_quiz" style="display: none">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h1 class="mt-5">Thanks Name</h1>
-                <p class="lead">You answered 10 ort of 20 questions in TEst quiz !!</p>
-                <div class="score">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Test</td><td>Test Name</td>
-                        </tr>
-                        <tr>
-                            <td>Total Questions</td><td>10</td>
-                        </tr>
-                        <tr>
-                            <td>Attempted</td><td>10</td>
-                        </tr>
-                        <tr>
-                            <td>Correct</td><td>10</td>
-                        </tr>
-                        <tr>
-                            <td>Wrong</td><td>10</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container" id="finish_quiz" style="display: none"></div>
 
 <?php
 include_once "partials/footer.php";
