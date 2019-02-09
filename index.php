@@ -48,7 +48,7 @@ include_once "partials/header.php";
         </div>
     </div>
 
-    <div class="container" style="display: none">
+    <div class="container" id="finish_quiz" style="display: none">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1 class="mt-5">Thanks Name</h1>

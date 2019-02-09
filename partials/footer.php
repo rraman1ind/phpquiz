@@ -20,12 +20,14 @@
             var test_id = $(this).data("test");
             var choice_id = $(this).data("choice");
             var target = $(this).data("target");
+            var question_number = $(this).data("question_number");
 
             var option_submit = $("#" + target);
             option_submit.prop('disabled', false);
             option_submit.attr("data-question_id", question_id);
             option_submit.attr("data-test_id", test_id);
             option_submit.attr("data-choice_id", choice_id);
+            option_submit.attr("data-question_number", question_number);
         });
 
         // Submit option "Next Button"
@@ -34,8 +36,9 @@
             var question_id = $(this).attr("data-question_id");
             var test_id = $(this).attr("data-test_id");
             var choice_id = $(this).attr("data-choice_id");
+            var question_number = $(this).attr("data-question_number");
 
-            submit_option(question_id, test_id, choice_id);
+            submit_option(question_id, test_id, choice_id, question_number);
         });
     });
 
@@ -91,7 +94,7 @@
 
             var choicesHtml = '';
             $.each(question['choices'], function (index, choice) {
-                choicesHtml += '<a class="btn btn-sm btn-outline-dark mr-2 answer_option" href="#" data-question="' + question["id"] + '" data-test="' + test_id + '" data-choice="' + choice["id"] + '" data-target="submit_' + question_number + '" role="button">' + choice['choice'] + '</a>';
+                choicesHtml += '<a class="btn btn-sm btn-outline-dark mr-2 answer_option" href="#" data-question_number="' + question_number + '" data-question="' + question["id"] + '" data-test="' + test_id + '" data-choice="' + choice["id"] + '" data-target="submit_' + question_number + '" role="button">' + choice['choice'] + '</a>';
             });
 
             var finalHtml = '<div class="container" id="question_' + question_number + '" style="display: none">\n' +
@@ -121,10 +124,9 @@
 
     }
 
-    function submit_option(question_id, test_id, choice_id) {
+    function submit_option(question_id, test_id, choice_id, question_number) {
         var fd = new FormData();
         fd.append('question_id', question_id);
-        fd.append('test_id', test_id);
         fd.append('test_id', test_id);
         fd.append('choice_id', choice_id);
 
@@ -136,10 +138,14 @@
             type: 'POST',
             data: fd,
             success: function (data, textStatus, jQxhr) {
+                $("#question_" + question_number).fadeOut();
                 if (data['message'] == 1) {
-                    console.log('next question');
+                    var next_question_id = parseInt(question_number) + 1;
+                    $("#question_" + next_question_id).fadeIn();
+                } else if (data['message'] == 2) {
+                    finishQuiz();
                 } else {
-                    console.log('Finish quiz');
+                    console.log(data, textStatus, jQxhr);
                 }
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -150,6 +156,10 @@
 
     function startQuiz() {
         $("#question_1").fadeIn();
+    }
+
+    function finishQuiz() {
+        $("#finish_quiz").show();
     }
 
 </script>
