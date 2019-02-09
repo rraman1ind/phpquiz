@@ -21,3 +21,4 @@
 		<h1 class="text-white">Quiz</h1>
 	</div>
 </nav>
+<div class="main_container">
