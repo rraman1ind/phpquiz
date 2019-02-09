@@ -8,7 +8,7 @@ include_once "partials/header.php";
                 <h1 class="mt-5">Start Quiz</h1>
                 <p class="lead">Enter Your Name, select test and click continue.</p>
                 <p>
-                <form name="start_test">
+                <form name="start_test" id="start_test" method="post" action="functions/start.php">
                     <div class="form-group">
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                                placeholder="Enter email">
@@ -29,7 +29,7 @@ include_once "partials/header.php";
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="display: none">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="mt-5">Question</h2>
@@ -52,7 +52,7 @@ include_once "partials/header.php";
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="display: none">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1 class="mt-5">Thanks Name</h1>
