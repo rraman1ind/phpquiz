@@ -90,9 +90,12 @@
 
         $("#start_quiz_container").fadeOut();
         var test_id = $.cookie("test_id");
+        var totalNumberOfQuestions = questions.length;
+        var progressStep = 100/totalNumberOfQuestions;
 
         questions.forEach(function (question, index) {
             var question_number = index + 1;
+            var progress = index*progressStep;
 
             var choicesHtml = '';
             $.each(question['choices'], function (index, choice) {
@@ -110,8 +113,8 @@
                 '                    <a href="#" id="submit_' + question_number + '" data-question-number="' + question_number + '" class="btn btn-primary answer_option_submit">Next</a>\n' +
                 '                </p>\n' +
                 '                <div class="progress mt-2">\n' +
-                '                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"\n' +
-                '                         aria-valuemin="0" aria-valuemax="100">25%\n' +
+                '                    <div class="progress-bar" role="progressbar" style="width: '+progress+'%;" aria-valuenow="25"\n' +
+                '                         aria-valuemin="0" aria-valuemax="100">'+progress+'%\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
